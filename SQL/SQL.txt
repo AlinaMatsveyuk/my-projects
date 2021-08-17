@@ -1,0 +1,400 @@
+Создание базы данных, таблицы, работа с SELECT c использованием СУБД mySQL (mySQL 8.0 Command Line Client - Unicode)  
+  
+mysql> CREATE database PETS;
+Query OK, 1 row affected (0.01 sec)                                                                                         
+
+mysql> SHOW databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pets               |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE PETS;
+Database changed
+mysql>  CREATE table furry_friends
+    -> (ID INT(10) NOT NULL PRIMARY KEY,
+    -> KIND VARCHAR(30) NULL,
+    -> NAME VARCHAR(30) NOT NULL,
+    -> AGE INT(3) NULL);
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+mysql> show tables;
++----------------+
+| Tables_in_pets |
++----------------+
+| furry_friends  |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> desc furry_friends;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| KIND  | varchar(30) | YES  |     | NULL    |       |
+| NAME  | varchar(30) | NO   |     | NULL    |       |
+| AGE   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into furry_friends values (1, "cat", "simba", 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into furry_friends values (2, "dog", "captain", 9);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into furry_friends values (3, "fish", "ariel", 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into furry_friends values (4, "raccoon", "michel", 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into furry_friends values (5, "minipig", "naf_naf", 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from furry_friends;
++----+---------+---------+------+
+| ID | KIND    | NAME    | AGE  |
++----+---------+---------+------+
+|  1 | cat     | simba   |    1 |
+|  2 | dog     | captain |    9 |
+|  3 | fish    | ariel   |    1 |
+|  4 | raccoon | michel  |    3 |
+|  5 | minipig | naf_naf |    2 |
++----+---------+---------+------+
+5 rows in set (0.00 sec)
+
+mysql> delete from furry_friends where name="ariel";
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from furry_friends;
++----+---------+---------+------+
+| ID | KIND    | NAME    | AGE  |
++----+---------+---------+------+
+|  1 | cat     | simba   |    1 |
+|  2 | dog     | captain |    9 |
+|  4 | raccoon | michel  |    3 |
+|  5 | minipig | naf_naf |    2 |
++----+---------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> update furry_friends set name="neo" where name="michel";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from furry_friends;
++----+---------+---------+------+
+| ID | KIND    | NAME    | AGE  |
++----+---------+---------+------+
+|  1 | cat     | simba   |    1 |
+|  2 | dog     | captain |    9 |
+|  4 | raccoon | neo     |    3 |
+|  5 | minipig | naf_naf |    2 |
++----+---------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> alter table furry_friends add column WEIGHT int after age;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select*from furry_friends;
++----+---------+---------+------+--------+
+| ID | KIND    | NAME    | AGE  | WEIGHT |
++----+---------+---------+------+--------+
+|  1 | cat     | simba   |    1 |   NULL |
+|  2 | dog     | captain |    9 |   NULL |
+|  4 | raccoon | neo     |    3 |   NULL |
+|  5 | minipig | naf_naf |    2 |   NULL |
++----+---------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update furry_friends set WEIGHT=3 where kind="cat";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from furry_friends;
++----+---------+---------+------+--------+
+| ID | KIND    | NAME    | AGE  | WEIGHT |
++----+---------+---------+------+--------+
+|  1 | cat     | simba   |    1 |      3 |
+|  2 | dog     | captain |    9 |   NULL |
+|  4 | raccoon | neo     |    3 |   NULL |
+|  5 | minipig | naf_naf |    2 |   NULL |
++----+---------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update furry_friends set WEIGHT=8 where kind="dog";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update furry_friends set WEIGHT=1 where kind="fish";
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update furry_friends set WEIGHT=2 where kind="raccoon";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update furry_friends set WEIGHT=2 where kind="minipig";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from furry_friends;
++----+---------+---------+------+--------+
+| ID | KIND    | NAME    | AGE  | WEIGHT |
++----+---------+---------+------+--------+
+|  1 | cat     | simba   |    1 |      3 |
+|  2 | dog     | captain |    9 |      8 |
+|  4 | raccoon | neo     |    3 |      2 |
+|  5 | minipig | naf_naf |    2 |      2 |
++----+---------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update furry_friends set kind="minipiggy" where kind="minipig";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from furry_friends;
++----+-----------+---------+------+--------+
+| ID | KIND      | NAME    | AGE  | WEIGHT |
++----+-----------+---------+------+--------+
+|  1 | cat       | simba   |    1 |      3 |
+|  2 | dog       | captain |    9 |      8 |
+|  4 | raccoon   | neo     |    3 |      2 |
+|  5 | minipiggy | naf_naf |    2 |      2 |
++----+-----------+---------+------+--------+
+4 rows in set (0.00 sec)
+mysql> insert into furry_friends values (6, "cat", "mamba", 2, 4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into furry_friends values (7, "dog", "rex", 1, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from furry_friends;
++----+-----------+---------+------+--------+
+| ID | KIND      | NAME    | AGE  | WEIGHT |
++----+-----------+---------+------+--------+
+|  1 | cat       | simba   |    1 |      3 |
+|  2 | dog       | captain |    9 |      8 |
+|  4 | raccoon   | neo     |    3 |      2 |
+|  5 | minipiggy | naf_naf |    2 |      2 |
+|  6 | cat       | mamba   |    2 |      4 |
+|  7 | dog       | rex     |    1 |      3 |
++----+-----------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select distinct kind from furry_friends;
++-----------+
+| KIND      |
++-----------+
+| cat       |
+| dog       |
+| raccoon   |
+| minipiggy |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> select*from furry_friends limit 4;
++----+-----------+---------+------+--------+
+| ID | KIND      | NAME    | AGE  | WEIGHT |
++----+-----------+---------+------+--------+
+|  1 | cat       | simba   |    1 |      3 |
+|  2 | dog       | captain |    9 |      8 |
+|  4 | raccoon   | neo     |    3 |      2 |
+|  5 | minipiggy | naf_naf |    2 |      2 |
++----+-----------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select age as возраст from furry_friends;
++----------------+
+| возраст        |
++----------------+
+|              1 |
+|              9 |
+|              3 |
+|              2 |
+|              2 |
+|              1 |
++----------------+
+6 rows in set (0.00 sec)
+
+mysql> select KIND, NAME, AGE from furry_friends where AGE=9;
++------+---------+------+
+| KIND | NAME    | AGE  |
++------+---------+------+
+| dog  | captain |    9 |
++------+---------+------+
+1 row in set (0.00 sec)
+
+mysql> select KIND, NAME, AGE from furry_friends where AGE >=2;
++-----------+---------+------+
+| KIND      | NAME    | AGE  |
++-----------+---------+------+
+| dog       | captain |    9 |
+| raccoon   | neo     |    3 |
+| minipiggy | naf_naf |    2 |
+| cat       | mamba   |    2 |
++-----------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> select*from furry_friends where weight=3 and age=1;
++----+------+-------+------+--------+
+| ID | KIND | NAME  | AGE  | WEIGHT |
++----+------+-------+------+--------+
+|  1 | cat  | simba |    1 |      3 |
+|  7 | dog  | rex   |    1 |      3 |
++----+------+-------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select*from furry_friends where WEIGHT=3 or WEIGHT=1;
++----+------+-------+------+--------+
+| ID | KIND | NAME  | AGE  | WEIGHT |
++----+------+-------+------+--------+
+|  1 | cat  | simba |    1 |      3 |
+|  7 | dog  | rex   |    1 |      3 |
++----+------+-------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select*from furry_friends where weight=3 or age=9;
++----+------+---------+------+--------+
+| ID | KIND | NAME    | AGE  | WEIGHT |
++----+------+---------+------+--------+
+|  1 | cat  | simba   |    1 |      3 |
+|  2 | dog  | captain |    9 |      8 |
+|  7 | dog  | rex     |    1 |      3 |
++----+------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select*from furry_friends where NAME like "%a";
++----+------+-------+------+--------+
+| ID | KIND | NAME  | AGE  | WEIGHT |
++----+------+-------+------+--------+
+|  1 | cat  | simba |    1 |      3 |
+|  6 | cat  | mamba |    2 |      4 |
++----+------+-------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select*from furry_friends where NAME like "_e_";
++----+---------+------+------+--------+
+| ID | KIND    | NAME | AGE  | WEIGHT |
++----+---------+------+------+--------+
+|  4 | raccoon | neo  |    3 |      2 |
+|  7 | dog     | rex  |    1 |      3 |
++----+---------+------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select AGE from furry_friends where AGE between 1 and 3;
++------+
+| AGE  |
++------+
+|    1 |
+|    3 |
+|    2 |
+|    2 |
+|    1 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> select AGE from furry_friends where not AGE between 1 and 3;
++------+
+| AGE  |
++------+
+|    9 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from furry_friends where ID IN (1,2,4);
++----+---------+---------+------+--------+
+| ID | KIND    | NAME    | AGE  | WEIGHT |
++----+---------+---------+------+--------+
+|  1 | cat     | simba   |    1 |      3 |
+|  2 | dog     | captain |    9 |      8 |
+|  4 | raccoon | neo     |    3 |      2 |
++----+---------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from furry_friends where (ID=1 or ID=2) and AGE=1;
++----+------+-------+------+--------+
+| ID | KIND | NAME  | AGE  | WEIGHT |
++----+------+-------+------+--------+
+|  1 | cat  | simba |    1 |      3 |
++----+------+-------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from furry_friends ORDER BY NAME;
++----+-----------+---------+------+--------+
+| ID | KIND      | NAME    | AGE  | WEIGHT |
++----+-----------+---------+------+--------+
+|  2 | dog       | captain |    9 |      8 |
+|  6 | cat       | mamba   |    2 |      4 |
+|  5 | minipiggy | naf_naf |    2 |      2 |
+|  4 | raccoon   | neo     |    3 |      2 |
+|  7 | dog       | rex     |    1 |      3 |
+|  1 | cat       | simba   |    1 |      3 |
++----+-----------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from furry_friends ORDER BY NAME DESC;
++----+-----------+---------+------+--------+
+| ID | KIND      | NAME    | AGE  | WEIGHT |
++----+-----------+---------+------+--------+
+|  1 | cat       | simba   |    1 |      3 |
+|  7 | dog       | rex     |    1 |      3 |
+|  4 | raccoon   | neo     |    3 |      2 |
+|  5 | minipiggy | naf_naf |    2 |      2 |
+|  6 | cat       | mamba   |    2 |      4 |
+|  2 | dog       | captain |    9 |      8 |
++----+-----------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select sum(AGE) from furry_friends;
++----------+
+| sum(AGE) |
++----------+
+|       18 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(ID) from furry_friends;
++-----------+
+| count(ID) |
++-----------+
+|         6 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select AVG(WEIGHT) from furry_friends;
++-------------+
+| AVG(WEIGHT) |
++-------------+
+|      3.6667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select min(WEIGHT) as min_WEIGHT from furry_friends;
++------------+
+| min_WEIGHT |
++------------+
+|          2 |
++------------+
+1 row in set (0.00 sec)
+
+Объединение таблиц, создание представления c использованием СУБД PostgreSQL (pgAdmin 4) 
+
+select pr.price, pr.core, pr.ram_value, ram.name from product pr inner join ram on pr.id_product = ram.id_ram 
+
+select pr.price, pr.core, pr.ram_value, ram.name from product pr left join ram on pr.id_product = ram.id_ram
+
+select pr.price, pr.core, pr.ram_value, ram.name from product pr right join ram on pr.id_product = ram.id_ram
+
+select vct.name, count (vct.name) from product pr 
+inner join video_card_type vct on pr.id_video_card_type=vct.id_video_card_type 
+group by vct.name
+
+create view MY_TABLE as select pr.name as "Name", pr.price as "Price", pr.core as "Core", ram.name as "Ram" 
+from product pr inner join ram on pr.id_ram = ram.id_ram
