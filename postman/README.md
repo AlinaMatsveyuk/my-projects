@@ -1,9 +1,9 @@
 # Postman
-1. Перехват http запроса средствами Postman
+1. РџРµСЂРµС…РІР°С‚ http Р·Р°РїСЂРѕСЃР° СЃСЂРµРґСЃС‚РІР°РјРё Postman
 https://www.postman.com/collections/d367aa5b76d7c1700719
-2. Тестрование, управляемое данными (csv, json)
+2. РўРµСЃС‚СЂРѕРІР°РЅРёРµ, СѓРїСЂР°РІР»СЏРµРјРѕРµ РґР°РЅРЅС‹РјРё (csv, json)
 https://www.postman.com/collections/58d192f5a0c573cc40e5
-3. Тестирование REST API
+3. РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ REST API
 https://www.postman.com/collections/366a93a532f3254de1f7
-4. Тестирование SOAP API
+4. РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ SOAP API
 https://www.postman.com/collections/aefbe91cf572a7f26bd0
